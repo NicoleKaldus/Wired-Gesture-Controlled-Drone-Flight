@@ -1,4 +1,4 @@
-# Install script for directory: /Users/nicolekaldus/esp/wirefull-final-project/managed_components/espressif__mpu6050
+# Install script for directory: /Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/managed_components/espressif__mpu6050
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

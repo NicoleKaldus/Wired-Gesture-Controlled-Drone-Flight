@@ -5,18 +5,18 @@ cmake_minimum_required(VERSION 3.5)
 
 file(MAKE_DIRECTORY
   "/Users/nicolekaldus/esp/esp-idf/components/bootloader/subproject"
-  "/Users/nicolekaldus/esp/wirefull-final-project/build/bootloader"
-  "/Users/nicolekaldus/esp/wirefull-final-project/build/bootloader-prefix"
-  "/Users/nicolekaldus/esp/wirefull-final-project/build/bootloader-prefix/tmp"
-  "/Users/nicolekaldus/esp/wirefull-final-project/build/bootloader-prefix/src/bootloader-stamp"
-  "/Users/nicolekaldus/esp/wirefull-final-project/build/bootloader-prefix/src"
-  "/Users/nicolekaldus/esp/wirefull-final-project/build/bootloader-prefix/src/bootloader-stamp"
+  "/Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/bootloader"
+  "/Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/bootloader-prefix"
+  "/Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/bootloader-prefix/tmp"
+  "/Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/bootloader-prefix/src/bootloader-stamp"
+  "/Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/bootloader-prefix/src"
+  "/Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/bootloader-prefix/src/bootloader-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "/Users/nicolekaldus/esp/wirefull-final-project/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
+    file(MAKE_DIRECTORY "/Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
 endforeach()
 if(cfgdir)
-  file(MAKE_DIRECTORY "/Users/nicolekaldus/esp/wirefull-final-project/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
+  file(MAKE_DIRECTORY "/Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
 endif()

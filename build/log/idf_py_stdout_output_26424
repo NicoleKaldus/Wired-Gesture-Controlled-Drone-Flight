@@ -1,0 +1,28 @@
+[1/9] Performing build step for 'bootloader'
+[1/1] cd /Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/bootloader/esp-idf/esptool_py && /Users/nicolekaldus/.espressif/python_env/idf5.3_py3.11_env/bin/python /Users/nicolekaldus/esp/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 /Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/bootloader/bootloader.bin
+Bootloader binary size 0x5240 bytes. 0x2dc0 bytes (36%) free.
+[2/9] No install step for 'bootloader'
+[3/9] Completed 'bootloader'
+[4/9] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/main.c.obj
+/Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/main/main.c: In function 'app_main':
+/Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/main/main.c:114:28: warning: unused variable 'timeInSeconds' [-Wunused-variable]
+  114 |                     double timeInSeconds = ((double)(clock() - start_t))/((double)CLOCKS_PER_SEC);
+      |                            ^~~~~~~~~~~~~
+/Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/main/main.c:93:13: warning: unused variable 'numMovements' [-Wunused-variable]
+   93 |         int numMovements = 4;
+      |             ^~~~~~~~~~~~
+/Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/main/main.c: At top level:
+/Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/main/main.c:19:20: warning: 'TAG' defined but not used [-Wunused-variable]
+   19 | static const char *TAG = "mpu6050 test";
+      |                    ^~~
+[5/9] Linking C static library esp-idf/main/libmain.a
+[6/9] Generating ld/sections.ld
+[7/9] Linking CXX executable cs528-hw2.elf
+[8/9] Generating binary image from built executable
+esptool.py vv4.8.dev1
+Creating esp32s3 image...
+Merged 2 ELF sections
+Successfully created esp32s3 image.
+Generated /Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/cs528-hw2.bin
+[9/9] cd /Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/esp-idf/esptool_py && /Users/nicolekaldus/.espressif/python_env/idf5.3_py3.11_env/bin/python /Users/nicolekaldus/esp/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/partition_table/partition-table.bin /Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/cs528-hw2.bin
+cs528-hw2.bin binary size 0x3aa30 bytes. Smallest app partition is 0x100000 bytes. 0xc55d0 bytes (77%) free.

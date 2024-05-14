@@ -1,4 +1,4 @@
-# Install script for directory: /Users/nicolekaldus/esp/wirefull-final-project/main
+# Install script for directory: /Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/main
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

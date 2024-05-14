@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/Users/nicolekaldus/esp/wirefull-final-project/build/bootloader/esp-idf/cmake_install.cmake")
+  include("/Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/bootloader/esp-idf/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/nicolekaldus/esp/wirefull-final-project/build/bootloader/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/bootloader/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

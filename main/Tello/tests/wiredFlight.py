@@ -1,10 +1,10 @@
 from tello import *
 import serial
 import torch
-import pandas as pd
+# import pandas as pd
 import numpy as np
-import asyncio
-from bleak import BleakClient, BleakScanner
+# import asyncio
+# from bleak import BleakClient, BleakScanner
 import time
 import torch.nn as nn
 
@@ -44,38 +44,44 @@ def checkForMovement(paddingWindow, numActivationMovements, accelerationThreshol
     if isMovement:
       movementCount += 1
   if movementCount >= numActivationMovements:
+    print('starting to record your movement...')
     return True
   return False
 
 def normalize(data):
+  try:
     min_val = np.min(data, axis=0)
     max_val = np.max(data, axis=0)
     data = (data - min_val) / (max_val - min_val)
     return torch.from_numpy(data)
+  except Exception as e:
+    print(e)
 
 def decideMovement(data): #0 = up, 1 = down, 2 = left, 3 = right
   #we would run the neural net here
   data = normalize(data)
-  data.to(device)
-  with torch.no_grad(): # no gradient update
-    yhat = model(data.permute(1,0).unsqueeze(0)) # Inference with reshaped data
-    pred = torch.max(yhat, 1) # get max probability from model output
+  try :
+    data.to(device)
+    with torch.no_grad(): # no gradient update
+      yhat = model(data.permute(1,0).unsqueeze(0)) # Inference with reshaped data
+      pred = torch.max(yhat, 1) # get max probability from model output
 
-    match pred.indices[0].item(): # get the index of the prediction
-        case 0:
-            print("Predict: up")
-            return 0
-        case 1:
-            print("Predict: down")
-            return 1
-        case 2:
-            print("Predict: left")
-            return 2
-        case 3:
-            print("Predict: right")
-            return 3
-  print('uh oh')
-  return -1
+      match pred.indices[0].item(): # get the index of the prediction
+          case 0:
+              print("Predict: up")
+              return 0
+          case 1:
+              print("Predict: down")
+              return 1
+          case 2:
+              print("Predict: left")
+              return 2
+          case 3:
+              print("Predict: right")
+              return 3
+  except Exception as e:
+    print('sorry...we didn\'t quite get that... ', e)
+    return -1
 #_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 
 paddingWindowSize = 100 #keep a sliding window of 100 points as padding
@@ -83,23 +89,23 @@ movementSize = 400
 paddingWindow = []
 recordedMovement = []
 recording = False
-numActivationMovements = 10
-accelerationThreshold = 20
-upThreshold = 4
+numActivationMovements = 20
+accelerationThreshold = 50
+upThreshold = 1
 upCount = 0
-distCM = 20
+distCM = 60
+numGestures = 0
 readingsStarted = False
+flying = False
+readyToRecord = False
 
-# start()
-# takeoff() 
-startTime = int(round(time.time() * 1000)) #current time in milliseconds
 port = '/dev/cu.usbserial-120'
 ser = serial.Serial(port, 115200)
 print('ready to run')
-while int(round(time.time() * 1000)) < startTime + 300000: #program will run for 5 minutes
+while numGestures < 5: #program will run for 5 gestures
   data = ser.readline()
   data = data.decode("utf-8")
-  if 'acce_x,acce_y,acce_z,gyro_x,gyro_y,gyro_z' in data:
+  if not readingsStarted and ('acce_x,acce_y,acce_z,gyro_x,gyro_y,gyro_z' in data or len(data.split(',')) == 6):
     readingsStarted = True
     continue
   elif 'main_task: Returned from app_main()' in data:
@@ -108,57 +114,75 @@ while int(round(time.time() * 1000)) < startTime + 300000: #program will run for
   
   if readingsStarted:
     data = data[:-2].split(",")
-    # print('reading data: ', data)
-    data = np.array(data).astype(np.float32)
-
+    if not len(data) == 6:
+      continue
+    try:
+      data = np.array(data).astype(np.float32)
+    except:
+      continue
+    
     if not recording: #need to add to window and check for movement
       if len(paddingWindow) < paddingWindowSize:
         paddingWindow.append(data)
+        
       else:
         paddingWindow = paddingWindow[1:]
         paddingWindow.append(data)
-      
-      if len(paddingWindow) > numActivationMovements: #can we start checking for movement
+        if not readyToRecord:
+          readyToRecord = True
+          print('ready to record')
         recording = checkForMovement(paddingWindow, numActivationMovements, accelerationThreshold)
     
     else: #else we are recording a movement
       if len(recordedMovement) < movementSize:
+        print(len(recordedMovement))
         recordedMovement.append(data)
       else: #time to detect what the movement is
-        print('DECIDING THE MOVEMEMNT')
+        print('DECIDING THE MOVEMENT')
         print('padding window len: ', len(paddingWindow))
         print('recorded movement len: ', len(recordedMovement))
         movementType = decideMovement(paddingWindow + recordedMovement)
         recordedMovement = []
         paddingWindow = []
+        
       
         recording = False
+        numGestures+=1
+        readyToRecord = False
+        if not flying:
+          flying = True
+          start()
+          print(get_battery())
+          takeoff() 
         
         if movementType == 0: #up
           if upCount < upThreshold:
             upCount += 1
-            # up(distCM)
+            up(distCM)
             print('up')
           else:
             print('too high...spin')
-            # clockwise(360)
+            clockwise(360)
         
         elif movementType == 1: #down
-          if upCount > 1:
+          if upCount > 0:
             upCount -= 1
             print('down')
-            # down(distCM)
+            down(distCM)
           else:
             print('too low...spin')
-            # clockwise(360)
+            clockwise(360)
             
         elif movementType == 2: #left
           print('left')
-          # left(distCM)
+          left(distCM)
         
         elif movementType == 3: #right
           print('right')
-          # right(distCM)
+          right(distCM)
+          
+        time.sleep(2)
+        print('done sleeping')
         
-# land() #safely lands the drone
+land() #safely lands the drone
 print('landing')

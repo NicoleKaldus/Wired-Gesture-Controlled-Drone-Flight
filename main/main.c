@@ -94,9 +94,10 @@ static void i2c_bus_init(void)
         int numFilesPerMovement = 1;
         int numReadingsPerFile = 1000;
         printf("acce_x,acce_y,acce_z,gyro_x,gyro_y,gyro_z\n"); 
-        while(numMovements > 0){ //for each type of movement
-            while(numFilesPerMovement > 0 ){ //for each gesture
-                
+        int readingCount = 0;
+        // while(numMovements > 0){ //for each type of movement
+        while(readingCount < 10000000 ){ //for each gesture
+                readingCount += 1;
                 clock_t start_t = clock(); //get the start time of the gesture
 
                 while(numReadingsPerFile > 0){ //for each reading of the gesture
@@ -122,10 +123,10 @@ static void i2c_bus_init(void)
                 // int milli_seconds = 1000 * 1.5;
                 // clock_t pause_start = clock();
                 // while (clock() < pause_start + milli_seconds){}//pause for a moment
-            }
+            // }
             
-            numFilesPerMovement = 1; //reset variable
-            numMovements = numMovements - 1;
+            // numFilesPerMovement = 1; //reset variable
+            // numMovements = numMovements - 1;
 
             // int milli_seconds = 1000 * 1.5;
             // clock_t pause_start = clock();

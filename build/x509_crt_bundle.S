@@ -1,4 +1,4 @@
-/* * Data converted from /Users/nicolekaldus/esp/wirefull-final-project/build/esp-idf/mbedtls/x509_crt_bundle
+/* * Data converted from /Users/nicolekaldus/esp/wired-528-final/Wired-Gesture-Controlled-Drone-Flight/build/esp-idf/mbedtls/x509_crt_bundle
  */
 .data
 #if !defined (__APPLE__) && !defined (__linux__)
